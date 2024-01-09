@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png" />
+
+    <title>Frontend Mentor | Multi-step form</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        border: 1px solid black;
+      }
+      .items-container {
+        display: flex;
+        border: 1px solid red;
+      }
+      .form-step {
+        display: none;
+      }
+      .current-step {
+        display: block;
+      }
+      .toggle-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .toggle-label {
+        margin-right: 10px;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        border-radius: 34px;
+        transition: 0.4s;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 2px;
+        background-color: white;
+        border-radius: 50%;
+        transition: 0.4s;
+      }
+
+      .checkbox-slider:checked + .toggle-slider {
+        background-color: #2196f3;
+      }
+
+      .checkbox-slider:checked + .toggle-slider:before {
+        transform: translateX(26px);
+      }
+
+      .checkbox-slider {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="items-container">
+        <div class="sidebar">
+          <!-- Sidebar start -->
+          <div>
+            <div>
+              <p>Step 1</p>
+              <p>Your info</p>
+            </div>
+          </div>
+          <div>
+            <div>
+              <p>Step 2</p>
+              <p>Select plan</p>
+            </div>
+          </div>
+          <div>
+            <div>
+              <p>Step 3</p>
+              <p>Add-ons</p>
+            </div>
+          </div>
+          <div>
+            <div>
+              <p>Step 4</p>
+              <p>Summary</p>
+            </div>
+          </div>
+        </div>
+        <!-- Sidebar end -->
+        <form id="multi-step-form">
+          <!-- Step 1 start -->
+          <div class="form-step current-step" id="step1">
+            <h2>Personal info</h2>
+
+            <div>
+              <p>Please provide your name, email address, and phone number.</p>
+
+              <p>Name</p>
+
+              <input placeholder="   e.g. Stephen King" />
+            </div>
+
+            <p>Email Address</p>
+
+            <input placeholder="e.g. stephenking@lorem.com" />
+
+            <p>Phone Number</p>
+            <input placeholder=" e.g. +1 234 567 890" />
+
+            <button type="button" onclick="validateStep(1)">Next Step</button>
+          </div>
+          <!-- Step 1 end -->
+
+          <!-- Step 2 start -->
+          <div class="form-step" id="step2">
+            <h2>Select your plan</h2>
+            <p>You have the option of monthly or yearly billing.</p>
+
+            <!-- Arcade Plan -->
+            <div>
+              <p>Arcade</p>
+              <p id="arcadeMonthlyCost">$9/mo</p>
+              <p id="arcadeYearlyCost" style="display: none">$90/year</p>
+            </div>
+
+            <!-- Advanced Plan -->
+            <div>
+              <p>Advanced</p>
+              <p id="advancedMonthlyCost">$12/mo</p>
+              <p id="advancedYearlyCost" style="display: none">$120/year</p>
+            </div>
+
+            <!-- Pro Plan -->
+            <div>
+              <p>Pro</p>
+              <p id="proMonthlyCost">$15/mo</p>
+              <p id="proYearlyCost" style="display: none">$150/year</p>
+            </div>
+            <div class="toggle-container">
+              <span class="toggle-label">Monthly</span>
+              <label class="toggle-switch">
+                <input class="checkbox-slider" type="checkbox" onchange="toggleBillingOption()" />
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label">Yearly</span>
+            </div>
+
+            <button type="button" onclick="prevStep()">Go Back</button>
+            <button type="button" onclick="validateStep(2)">Next Step</button>
+          </div>
+          <!-- Step 2 end -->
+
+          <!-- Step 3 start -->
+          <div class="form-step" id="step3">
+            <h2>Pick add-ons</h2>
+            <p>Add-ons help enhance your gaming experience.</p>
+            <div>
+              <b> Online service </b>
+              <p>Access to multiplayer games</p>
+              <p>+$1/mo</p>
+            </div>
+
+            <div>
+              <p>Larger storage</p>
+              <p>Extra 1TB of cloud save</p>
+              <p>+$2/mo</p>
+            </div>
+
+            <div>
+              <p>Customizable Profile</p>
+              <p>Custom theme on your profile</p>
+              <p>+$2/mo</p>
+            </div>
+
+            <button type="button" onclick="prevStep()">Go Back</button>
+            <button type="button" onclick="validateStep(3)">Next Step</button>
+          </div>
+          <!-- Step 3 end -->
+
+          <!-- Step 4 start -->
+          <div class="form-step" id="step4">
+            <h2>Finishing up</h2>
+            <p>Double-check everything looks OK before confirming.</p>
+
+            <!-- Dynamically add subscription and add-on selections here -->
+            <p>Total (per month/year)</p>
+
+            <button type="button" onclick="prevStep()">Go Back</button>
+            <button type="button" onclick="validateStep(4)">Confirm</button>
+          </div>
+          <!-- Step 4 end -->
+        </form>
+        <!-- Step 5 start -->
+        <div class="form-step" id="step5">
+          <p>Thank you!</p>
+          <p>Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com.</p>
+        </div>
+        <!-- Step 5 end -->
+      </div>
+    </div>
+    <script>
+      let currentStep = 1;
+
+      function showStep(step) {
+        debugger;
+        // // Hide all steps
+        // document.querySelectorAll(".form-step").forEach((stepElement) => {
+        //   stepElement.classList.remove("current-step");
+        // });
+        const allSteps = document.querySelectorAll(".form-step");
+        console.log(allSteps); // Log the selected elements
+        allSteps.forEach((stepElement) => {
+          stepElement.classList.remove("current-step");
+        });
+        // Show the specified step
+        document.getElementById(`step${step}`).classList.add("current-step");
+      }
+
+      function validateStep(step) {
+        debugger;
+        // Simple validation, you can customize this based on your requirements
+        const currentStepElement = document.getElementById(`step${step}`);
+        const inputs = currentStepElement.querySelectorAll("input, textarea");
+
+        let isValid = true;
+
+        inputs.forEach((input) => {
+          if (input.checkValidity() === false) {
+            isValid = false;
+            alert(`Please enter a valid ${input.name}.`);
+          }
+        });
+
+        if (isValid) {
+          if (step < 4) {
+            currentStep++;
+            showStep(currentStep);
+          } else {
+            // You can submit the form or perform final actions here
+            alert("Form submitted successfully!");
+          }
+        }
+      }
+
+      function prevStep() {
+        if (currentStep > 1) {
+          currentStep--;
+          showStep(currentStep);
+        }
+      }
+
+      function toggleBillingOption() {
+        const monthlyCostElements = document.querySelectorAll('[id$="MonthlyCost"]');
+        const yearlyCostElements = document.querySelectorAll('[id$="YearlyCost"]');
+        const toggleSwitch = document.querySelector(".toggle-switch input");
+
+        if (toggleSwitch.checked) {
+          monthlyCostElements.forEach((element) => (element.style.display = "none"));
+          yearlyCostElements.forEach((element) => (element.style.display = "block"));
+        } else {
+          monthlyCostElements.forEach((element) => (element.style.display = "block"));
+          yearlyCostElements.forEach((element) => (element.style.display = "none"));
+        }
+      }
+    </script>
+  </body>
+</html>
