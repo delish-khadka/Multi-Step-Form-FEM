@@ -1,0 +1,81 @@
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  border: 1px solid black;
+}
+.items-container {
+  display: flex;
+  border: 1px solid red;
+}
+.form-step {
+  display: none;
+}
+.current-step {
+  display: block;
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.toggle-label {
+  flex: 1;
+  text-align: center;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+/* Added style to change slider position based on input state */
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #4caf50;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(26px); /* Adjust this value to change the position of the slider */
+  background-color: #fff;
+}
+
+.plan.selected {
+  background-color: #4caf50; /* Change this color as per your design */
+  color: #fff;
+}
+/* .checkbox-slider {
+  display: none;
+} */

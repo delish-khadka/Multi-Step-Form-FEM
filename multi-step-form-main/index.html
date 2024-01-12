@@ -10,77 +10,7 @@
     <title>Frontend Mentor | Multi-step form</title>
 
     <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .main-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        border: 1px solid black;
-      }
-      .items-container {
-        display: flex;
-        border: 1px solid red;
-      }
-      .form-step {
-        display: none;
-      }
-      .current-step {
-        display: block;
-      }
-      .toggle-container {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-      }
-
-      .toggle-label {
-        margin-right: 10px;
-      }
-
-      .toggle-switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-      }
-
-      .toggle-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        border-radius: 34px;
-        transition: 0.4s;
-      }
-
-      .toggle-slider:before {
-        position: absolute;
-        content: "";
-        height: 20px;
-        width: 20px;
-        left: 4px;
-        bottom: 2px;
-        background-color: white;
-        border-radius: 50%;
-        transition: 0.4s;
-      }
-
-      .checkbox-slider:checked + .toggle-slider {
-        background-color: #2196f3;
-      }
-
-      .checkbox-slider:checked + .toggle-slider:before {
-        transform: translateX(26px);
-      }
-
-      .checkbox-slider {
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="main-container">
@@ -142,30 +72,31 @@
             <h2>Select your plan</h2>
             <p>You have the option of monthly or yearly billing.</p>
 
-            <!-- Arcade Plan -->
-            <div>
+            <div class="plan" onclick="selectPlan('Arcade')" data-plan="Arcade">
               <p>Arcade</p>
-              <p id="arcadeMonthlyCost">$9/mo</p>
-              <p id="arcadeYearlyCost" style="display: none">$90/year</p>
+              <p class="monthly-cost" data-plan="Arcade" data-billing="monthly">$9/mo</p>
+              <p class="yearly-cost" data-plan="Arcade" data-billing="yearly" style="display: none">$90/year</p>
             </div>
 
             <!-- Advanced Plan -->
-            <div>
+            <div class="plan" onclick="selectPlan('Advanced')" data-plan="Advanced">
               <p>Advanced</p>
-              <p id="advancedMonthlyCost">$12/mo</p>
-              <p id="advancedYearlyCost" style="display: none">$120/year</p>
+              <p class="monthly-cost" data-plan="Advanced" data-billing="monthly">$12/mo</p>
+              <p class="yearly-cost" data-plan="Advanced" data-billing="yearly" style="display: none">$120/year</p>
             </div>
 
             <!-- Pro Plan -->
-            <div>
+            <div class="plan" onclick="selectPlan('Pro')" data-plan="Pro">
               <p>Pro</p>
-              <p id="proMonthlyCost">$15/mo</p>
-              <p id="proYearlyCost" style="display: none">$150/year</p>
+              <p class="monthly-cost" data-plan="Pro" data-billing="monthly">$15/mo</p>
+              <p class="yearly-cost" data-plan="Pro" data-billing="yearly" style="display: none">$150/year</p>
             </div>
+
+            <!-- Toggle switch -->
             <div class="toggle-container">
               <span class="toggle-label">Monthly</span>
               <label class="toggle-switch">
-                <input class="checkbox-slider" type="checkbox" onchange="toggleBillingOption()" />
+                <input type="checkbox" onchange="toggleBillingOption()" />
                 <span class="toggle-slider"></span>
               </label>
               <span class="toggle-label">Yearly</span>
@@ -207,7 +138,8 @@
           <div class="form-step" id="step4">
             <h2>Finishing up</h2>
             <p>Double-check everything looks OK before confirming.</p>
-
+            <p id="selectedPlanDisplay"></p>
+            <p id="pricePlanDisplay"></p>
             <!-- Dynamically add subscription and add-on selections here -->
             <p>Total (per month/year)</p>
 
@@ -224,70 +156,6 @@
         <!-- Step 5 end -->
       </div>
     </div>
-    <script>
-      let currentStep = 1;
-
-      function showStep(step) {
-        debugger;
-        // // Hide all steps
-        // document.querySelectorAll(".form-step").forEach((stepElement) => {
-        //   stepElement.classList.remove("current-step");
-        // });
-        const allSteps = document.querySelectorAll(".form-step");
-        console.log(allSteps); // Log the selected elements
-        allSteps.forEach((stepElement) => {
-          stepElement.classList.remove("current-step");
-        });
-        // Show the specified step
-        document.getElementById(`step${step}`).classList.add("current-step");
-      }
-
-      function validateStep(step) {
-        debugger;
-        // Simple validation, you can customize this based on your requirements
-        const currentStepElement = document.getElementById(`step${step}`);
-        const inputs = currentStepElement.querySelectorAll("input, textarea");
-
-        let isValid = true;
-
-        inputs.forEach((input) => {
-          if (input.checkValidity() === false) {
-            isValid = false;
-            alert(`Please enter a valid ${input.name}.`);
-          }
-        });
-
-        if (isValid) {
-          if (step < 4) {
-            currentStep++;
-            showStep(currentStep);
-          } else {
-            // You can submit the form or perform final actions here
-            alert("Form submitted successfully!");
-          }
-        }
-      }
-
-      function prevStep() {
-        if (currentStep > 1) {
-          currentStep--;
-          showStep(currentStep);
-        }
-      }
-
-      function toggleBillingOption() {
-        const monthlyCostElements = document.querySelectorAll('[id$="MonthlyCost"]');
-        const yearlyCostElements = document.querySelectorAll('[id$="YearlyCost"]');
-        const toggleSwitch = document.querySelector(".toggle-switch input");
-
-        if (toggleSwitch.checked) {
-          monthlyCostElements.forEach((element) => (element.style.display = "none"));
-          yearlyCostElements.forEach((element) => (element.style.display = "block"));
-        } else {
-          monthlyCostElements.forEach((element) => (element.style.display = "block"));
-          yearlyCostElements.forEach((element) => (element.style.display = "none"));
-        }
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
